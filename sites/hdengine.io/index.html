@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HDEngine.io</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #1a1a2e;
+        }
+
+        /* Grid of color-shifting tiles */
+        canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* Soft vignette */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.3) 100%);
+        }
+
+        /* Floating light spots */
+        .spot {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 1;
+            mix-blend-mode: soft-light;
+        }
+
+        .spot-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.2);
+            top: -10%;
+            left: 15%;
+            animation: float1 20s ease-in-out infinite;
+        }
+
+        .spot-2 {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.15);
+            bottom: -5%;
+            right: 10%;
+            animation: float2 25s ease-in-out infinite;
+        }
+
+        .spot-3 {
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.12);
+            top: 40%;
+            right: 30%;
+            animation: float3 18s ease-in-out infinite;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(60px, 40px) scale(1.1); }
+            66% { transform: translate(-30px, 70px) scale(0.95); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-50px, -30px) scale(1.15); }
+            66% { transform: translate(40px, -60px) scale(0.9); }
+        }
+
+        @keyframes float3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-40px, 50px) scale(1.2); }
+        }
+
+        /* Content */
+        .content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .domain {
+            font-size: clamp(2.6rem, 9vw, 5.5rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            color: #fff;
+            text-shadow: 0 2px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .domain span {
+            font-weight: 300;
+            opacity: 0.85;
+        }
+
+        .tagline {
+            font-size: clamp(0.8rem, 1.8vw, 1rem);
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="grid"></canvas>
+
+    <div class="spot spot-1"></div>
+    <div class="spot spot-2"></div>
+    <div class="spot spot-3"></div>
+
+    <div class="content">
+        <h1 class="domain">HD<span>Engine.io</span></h1>
+        <p class="tagline">Coming Soon</p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('grid');
+        const ctx = canvas.getContext('2d');
+
+        // Gradient color stops: Orange -> Yellow -> White -> Teal -> Blue -> Orange (loop)
+        const stops = [
+            [35, 166, 213],   // #23a6d5  blue
+            [35, 213, 171],   // #23d5ab  teal
+            [240, 240, 245],  // #f0f0f5  white
+            [212, 168, 67],   // #d4a843  gold/yellow
+            [238, 119, 82],   // #ee7752  orange
+        ];
+
+        const TILE = 60;
+        let cols, rows;
+        let time = 0;
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            cols = Math.ceil(canvas.width / TILE) + 1;
+            rows = Math.ceil(canvas.height / TILE) + 1;
+        }
+
+        function lerp(a, b, t) {
+            return [
+                a[0] + (b[0] - a[0]) * t,
+                a[1] + (b[1] - a[1]) * t,
+                a[2] + (b[2] - a[2]) * t,
+            ];
+        }
+
+        // Sample color from the gradient at position t (0..1)
+        function sampleGradient(t) {
+            const pos = ((t % 1) + 1) % 1 * stops.length;
+            const i = Math.floor(pos);
+            const frac = pos - i;
+            return lerp(stops[i % stops.length], stops[(i + 1) % stops.length], frac);
+        }
+
+        function draw() {
+            time -= 0.0004;
+
+            // Outline wave — sweeps right to left, diagonally tilted
+            // Cycles: sweep across screen, then pause before next wave
+            const waveCenter = ((time * 9.75) % 2.6) + 1.8;
+
+            ctx.lineWidth = 1;
+
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    // Horizontal position only (left to right)
+                    const nx = c / cols;
+
+                    // Stretch gradient so only ~2-3 colors visible at once
+                    const stretched = nx * 0.4;
+
+                    // Add small per-tile jitter so neighbors differ slightly (pixelated look)
+                    const jitter = (Math.sin(c * 7.3 + r * 13.7) * 0.5 + 0.5) * 0.02;
+
+                    // Slowly shift the gradient over time (left to right)
+                    const t = stretched + jitter + time;
+
+                    const [cr, cg, cb] = sampleGradient(t);
+
+                    ctx.fillStyle = `rgb(${cr|0},${cg|0},${cb|0})`;
+                    ctx.fillRect(c * TILE, r * TILE, TILE, TILE);
+
+                    // White outlines — slow clusters that fade in and out
+                    const ny = r / rows;
+
+                    // Three small independent clusters
+                    const blob1 = Math.sin(nx * 5 - time * 10) * Math.sin(ny * 6 + time * 7);
+                    const blob2 = Math.sin(nx * 6 + time * 8 + 2.5) * Math.sin(ny * 5 - time * 6 + 4);
+                    const blob3 = Math.sin(nx * 4.5 - time * 5 + 1.2) * Math.sin(ny * 7 + time * 9 + 3);
+
+                    const combined = Math.max(blob1, blob2, blob3);
+                    const alpha = Math.max(0, combined - 0.7) * 0.8;
+
+                    if (alpha > 0.01) {
+                        ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+                        ctx.strokeRect(c * TILE + 0.5, r * TILE + 0.5, TILE - 1, TILE - 1);
+                    }
+                }
+            }
+
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        draw();
+    </script>
+
+</body>
+
+</html>
