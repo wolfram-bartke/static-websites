@@ -1,7 +1,5 @@
 FROM php:8.3-apache
 
-ENV PORT=80
-
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 RUN a2enmod rewrite headers
@@ -19,6 +17,6 @@ RUN chown -R www-data:www-data /var/www/
 COPY entrypoint.sh /entrypoint.sh
 RUN sed -i 's/\r$//' /entrypoint.sh && chmod +x /entrypoint.sh
 
-EXPOSE ${PORT}
+EXPOSE 80
 
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/entrypoint.sh"]

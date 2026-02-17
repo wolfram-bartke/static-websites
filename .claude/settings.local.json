@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git -C /c/WORK/www/DLYX/static-websites log --oneline -10)"
+      "Bash(git -C /c/WORK/www/DLYX/static-websites log --oneline -10)",
+      "WebFetch(domain:www.nodion.com)"
     ]
   }
 }
