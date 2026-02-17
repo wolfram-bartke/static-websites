@@ -3,4 +3,6 @@ services:
     build: .
     ports:
       - "80:80"
+    environment:
+      - PORT=80
     restart: unless-stopped
