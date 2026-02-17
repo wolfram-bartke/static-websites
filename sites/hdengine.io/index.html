@@ -85,7 +85,7 @@
         }
 
         @media (max-width: 768px) {
-            body { align-items: flex-start; padding-top: 25vh; }
+            body { align-items: flex-start; padding-top: 35vh; }
             .spot-1 { width: 200px; height: 200px; }
             .spot-2 { width: 150px; height: 150px; }
             .spot-3 { width: 120px; height: 120px; }
@@ -169,6 +169,7 @@
         let cols, rows;
         let time = 0;
         let logoRadius = 0;
+        let logoCx = 0, logoCy = 0;
 
         function resize() {
             canvas.width = window.innerWidth;
@@ -180,6 +181,8 @@
                 const rect = el.getBoundingClientRect();
                 const half = Math.max(rect.width, rect.height) / 2;
                 logoRadius = half + (window.innerWidth <= 768 ? 100 : 200);
+                logoCx = rect.left + rect.width / 2;
+                logoCy = rect.top + rect.height / 2;
             }
         }
 
@@ -267,8 +270,8 @@
                     if (dotAlpha > 0.01) {
                         const px = c * TILE;
                         const py = r * TILE;
-                        const dx = px - canvas.width / 2;
-                        const dy = py - canvas.height / 2;
+                        const dx = px - logoCx;
+                        const dy = py - logoCy;
                         if (dx * dx + dy * dy < logoRadius * logoRadius) continue;
 
                         ctx.beginPath();
