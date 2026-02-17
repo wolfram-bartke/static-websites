@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /c/WORK/www/DLYX/static-websites log --oneline -10)"
+    ]
+  }
+}
