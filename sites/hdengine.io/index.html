@@ -161,12 +161,19 @@
         const TILE = 60;
         let cols, rows;
         let time = 0;
+        let logoRadius = 0;
 
         function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             cols = Math.ceil(canvas.width / TILE) + 1;
             rows = Math.ceil(canvas.height / TILE) + 1;
+            const el = document.querySelector('.content');
+            if (el) {
+                const rect = el.getBoundingClientRect();
+                const half = Math.max(rect.width, rect.height) / 2;
+                logoRadius = half + 200;
+            }
         }
 
         function lerp(a, b, t) {
@@ -217,9 +224,9 @@
                     const ny = r / rows;
 
                     // Three small independent clusters
-                    const blob1 = Math.sin(nx * 5 - time * 10) * Math.sin(ny * 6 + time * 7);
-                    const blob2 = Math.sin(nx * 6 + time * 8 + 2.5) * Math.sin(ny * 5 - time * 6 + 4);
-                    const blob3 = Math.sin(nx * 4.5 - time * 5 + 1.2) * Math.sin(ny * 7 + time * 9 + 3);
+                    const blob1 = Math.sin(nx * 7.15 - time * 10) * Math.sin(ny * 8.6 + time * 7);
+                    const blob2 = Math.sin(nx * 8.6 + time * 8 + 2.5) * Math.sin(ny * 7.15 - time * 6 + 4);
+                    const blob3 = Math.sin(nx * 6.45 - time * 5 + 1.2) * Math.sin(ny * 10 + time * 9 + 3);
 
                     const combined = Math.max(blob1, blob2, blob3);
                     const alpha = Math.max(0, combined - 0.7) * 0.8;
@@ -227,6 +234,36 @@
                     if (alpha > 0.01) {
                         ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
                         ctx.strokeRect(c * TILE + 0.5, r * TILE + 0.5, TILE - 1, TILE - 1);
+                    }
+                }
+            }
+
+            // White dots at grid intersections (corners where 4 squares meet)
+            for (let r = 0; r <= rows; r++) {
+                for (let c = 0; c <= cols; c++) {
+                    // Pseudo-random per intersection: phase, speed, size
+                    const hash = Math.sin(c * 127.1 + r * 311.7) * 43758.5453;
+                    const phase = (hash - Math.floor(hash)) * Math.PI * 2;
+                    const hash2 = Math.sin(c * 269.5 + r * 183.3) * 28461.723;
+                    const speed = 0.2 + (hash2 - Math.floor(hash2)) * 0.27;
+                    const hash3 = Math.sin(c * 419.2 + r * 97.4) * 15731.361;
+                    const radius = 1.5 + (hash3 - Math.floor(hash3)) * 13.5;
+
+                    // Fade in/out using sin, only visible part of the cycle
+                    const wave = Math.sin(time * speed * 12 + phase);
+                    const dotAlpha = Math.max(0, wave - 0.85) / 0.15;
+
+                    if (dotAlpha > 0.01) {
+                        const px = c * TILE;
+                        const py = r * TILE;
+                        const dx = px - canvas.width / 2;
+                        const dy = py - canvas.height / 2;
+                        if (dx * dx + dy * dy < logoRadius * logoRadius) continue;
+
+                        ctx.beginPath();
+                        ctx.arc(px, py, radius, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(255,255,255,${dotAlpha * 0.8})`;
+                        ctx.fill();
                     }
                 }
             }
