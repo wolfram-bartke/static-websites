@@ -202,41 +202,54 @@
             return lerp(stops[i % stops.length], stops[(i + 1) % stops.length], frac);
         }
 
+        // Pre-compute dot properties (static per grid position)
+        let dotData = [];
+        function buildDotData() {
+            dotData = [];
+            const maxR = TILE <= 40 ? 7 : 13.5;
+            const lr2 = logoRadius * logoRadius;
+            for (let r = 0; r <= rows; r++) {
+                for (let c = 0; c <= cols; c++) {
+                    const px = c * TILE;
+                    const py = r * TILE;
+                    const dx = px - logoCx;
+                    const dy = py - logoCy;
+                    if (dx * dx + dy * dy < lr2) continue;
+
+                    const hash = Math.sin(c * 127.1 + r * 311.7) * 43758.5453;
+                    const phase = (hash - Math.floor(hash)) * Math.PI * 2;
+                    const hash2 = Math.sin(c * 269.5 + r * 183.3) * 28461.723;
+                    const speed = 0.2 + (hash2 - Math.floor(hash2)) * 0.27;
+                    const hash3 = Math.sin(c * 419.2 + r * 97.4) * 15731.361;
+                    const radius = 1.5 + (hash3 - Math.floor(hash3)) * maxR;
+                    dotData.push({ px, py, phase, speed, radius });
+                }
+            }
+        }
+
         function draw() {
             time -= 0.0004;
 
-            // Outline wave — sweeps right to left, diagonally tilted
-            // Cycles: sweep across screen, then pause before next wave
-            const waveCenter = ((time * 9.75) % 2.6) + 1.8;
-
+            const isMobile = canvas.width <= 768;
             ctx.lineWidth = 1;
 
             for (let r = 0; r < rows; r++) {
                 for (let c = 0; c < cols; c++) {
-                    // Horizontal position only (left to right)
                     const nx = c / cols;
+                    const ny = r / rows;
 
-                    // Stretch gradient so only ~2-3 colors visible at once
-                    const ny_grad = r / rows;
-                    const stretched = canvas.width <= 768
-                        ? nx * 0.8 + ny_grad * 0.3
+                    const stretched = isMobile
+                        ? nx * 0.8 + ny * 0.3
                         : nx * 0.4;
 
-                    // Add small per-tile jitter so neighbors differ slightly (pixelated look)
                     const jitter = (Math.sin(c * 7.3 + r * 13.7) * 0.5 + 0.5) * 0.02;
-
-                    // Slowly shift the gradient over time (left to right)
                     const t = stretched + jitter + time;
-
                     const [cr, cg, cb] = sampleGradient(t);
 
                     ctx.fillStyle = `rgb(${cr|0},${cg|0},${cb|0})`;
                     ctx.fillRect(c * TILE, r * TILE, TILE, TILE);
 
                     // White outlines — slow clusters that fade in and out
-                    const ny = r / rows;
-
-                    // Three small independent clusters
                     const blob1 = Math.sin(nx * 7.15 - time * 10) * Math.sin(ny * 8.6 + time * 7);
                     const blob2 = Math.sin(nx * 8.6 + time * 8 + 2.5) * Math.sin(ny * 7.15 - time * 6 + 4);
                     const blob3 = Math.sin(nx * 6.45 - time * 5 + 1.2) * Math.sin(ny * 10 + time * 9 + 3);
@@ -251,42 +264,29 @@
                 }
             }
 
-            // White dots at grid intersections (corners where 4 squares meet)
-            for (let r = 0; r <= rows; r++) {
-                for (let c = 0; c <= cols; c++) {
-                    // Pseudo-random per intersection: phase, speed, size
-                    const hash = Math.sin(c * 127.1 + r * 311.7) * 43758.5453;
-                    const phase = (hash - Math.floor(hash)) * Math.PI * 2;
-                    const hash2 = Math.sin(c * 269.5 + r * 183.3) * 28461.723;
-                    const speed = 0.2 + (hash2 - Math.floor(hash2)) * 0.27;
-                    const hash3 = Math.sin(c * 419.2 + r * 97.4) * 15731.361;
-                    const maxR = canvas.width <= 768 ? 7 : 13.5;
-                    const radius = 1.5 + (hash3 - Math.floor(hash3)) * maxR;
-
-                    // Fade in/out using sin, only visible part of the cycle
-                    const wave = Math.sin(time * speed * 12 + phase);
+            // White dots at grid intersections (desktop only)
+            if (!isMobile) {
+                for (let i = 0; i < dotData.length; i++) {
+                    const d = dotData[i];
+                    const wave = Math.sin(time * d.speed * 12 + d.phase);
                     const dotAlpha = Math.max(0, wave - 0.85) / 0.15;
-
                     if (dotAlpha > 0.01) {
-                        const px = c * TILE;
-                        const py = r * TILE;
-                        const dx = px - logoCx;
-                        const dy = py - logoCy;
-                        if (dx * dx + dy * dy < logoRadius * logoRadius) continue;
-
+                        ctx.globalAlpha = dotAlpha * 0.8;
+                        ctx.fillStyle = '#fff';
                         ctx.beginPath();
-                        ctx.arc(px, py, radius, 0, Math.PI * 2);
-                        ctx.fillStyle = `rgba(255,255,255,${dotAlpha * 0.8})`;
+                        ctx.arc(d.px, d.py, d.radius, 0, Math.PI * 2);
                         ctx.fill();
                     }
                 }
+                ctx.globalAlpha = 1;
             }
 
             requestAnimationFrame(draw);
         }
 
-        window.addEventListener('resize', resize);
+        window.addEventListener('resize', () => { resize(); buildDotData(); });
         resize();
+        buildDotData();
         draw();
     </script>
 
