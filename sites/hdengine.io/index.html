@@ -84,6 +84,12 @@
             animation: float3 18s ease-in-out infinite;
         }
 
+        @media (max-width: 768px) {
+            .spot-1 { width: 200px; height: 200px; }
+            .spot-2 { width: 150px; height: 150px; }
+            .spot-3 { width: 120px; height: 120px; }
+        }
+
         @keyframes float1 {
             0%, 100% { transform: translate(0, 0) scale(1); }
             33% { transform: translate(60px, 40px) scale(1.1); }
@@ -158,7 +164,7 @@
             [238, 119, 82],   // #ee7752  orange
         ];
 
-        const TILE = 60;
+        const TILE = window.innerWidth <= 768 ? 35 : 60;
         let cols, rows;
         let time = 0;
         let logoRadius = 0;
@@ -172,7 +178,7 @@
             if (el) {
                 const rect = el.getBoundingClientRect();
                 const half = Math.max(rect.width, rect.height) / 2;
-                logoRadius = half + 200;
+                logoRadius = half + (window.innerWidth <= 768 ? 100 : 200);
             }
         }
 
@@ -207,7 +213,10 @@
                     const nx = c / cols;
 
                     // Stretch gradient so only ~2-3 colors visible at once
-                    const stretched = nx * 0.4;
+                    const ny_grad = r / rows;
+                    const stretched = canvas.width <= 768
+                        ? nx * 0.8 + ny_grad * 0.3
+                        : nx * 0.4;
 
                     // Add small per-tile jitter so neighbors differ slightly (pixelated look)
                     const jitter = (Math.sin(c * 7.3 + r * 13.7) * 0.5 + 0.5) * 0.02;
@@ -247,7 +256,8 @@
                     const hash2 = Math.sin(c * 269.5 + r * 183.3) * 28461.723;
                     const speed = 0.2 + (hash2 - Math.floor(hash2)) * 0.27;
                     const hash3 = Math.sin(c * 419.2 + r * 97.4) * 15731.361;
-                    const radius = 1.5 + (hash3 - Math.floor(hash3)) * 13.5;
+                    const maxR = canvas.width <= 768 ? 7 : 13.5;
+                    const radius = 1.5 + (hash3 - Math.floor(hash3)) * maxR;
 
                     // Fade in/out using sin, only visible part of the cycle
                     const wave = Math.sin(time * speed * 12 + phase);
