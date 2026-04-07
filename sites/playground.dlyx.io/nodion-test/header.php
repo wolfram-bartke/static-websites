@@ -31,13 +31,34 @@ foreach ($headers as $key => $val) {
 
 echo "\n\n=== RELEVANTE SERVER-VARIABLEN (Zusatz-Check) ===\n\n";
 
-// Manchmal verstecken Cloud-Provider IPs oder Geo-Daten in eigenen Server-Variablen
-$relevantKeys = ['REMOTE_ADDR', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_REAL_IP', 'HTTP_CF_IPCOUNTRY'];
+// Erweiterte Suche nach Geo-, IP- und Standort-bezogenen Server-Variablen
+$geoPatterns = [
+    'IP', 'COUNTRY', 'CITY', 'REGION', 'STATE', 'PROVINCE',
+    'LAT', 'LON', 'LONG', 'GEO', 'LOC', 'FORWARD',
+    'CONTINENT', 'TIMEZONE', 'POSTAL', 'ZIP', 'METRO',
+    'ASN', 'ORG', 'ISP', 'PROXY', 'REAL', 'REMOTE',
+    'GEOIP', 'MM_', 'MAXMIND', 'CF_', 'CDN', 'EDGE',
+    'X_APPENGINE', 'X_AWS', 'X_AZURE', 'X_GCP',
+    'FLYIO', 'VERCEL', 'NETLIFY', 'AKAMAI',
+];
 
 foreach ($_SERVER as $key => $val) {
-    // Wir filtern nur nach typischen Proxy-, Geo- und IP-Variablen
-    if (strpos($key, 'IP') !== false || strpos($key, 'COUNTRY') !== false || strpos($key, 'FORWARD') !== false || in_array($key, $relevantKeys)) {
-        echo str_pad($key . ":", 30) . $val . "\n";
+    $keyUpper = strtoupper($key);
+    foreach ($geoPatterns as $pattern) {
+        if (strpos($keyUpper, $pattern) !== false) {
+            echo str_pad($key . ":", 40) . $val . "\n";
+            break;
+        }
+    }
+}
+
+
+echo "\n\n=== KOMPLETTES \$_SERVER ARRAY ===\n\n";
+
+// Fallback: Alle $_SERVER Variablen ausgeben, damit nichts übersehen wird
+foreach ($_SERVER as $key => $val) {
+    if (is_string($val)) {
+        echo str_pad($key . ":", 40) . $val . "\n";
     }
 }
 ?>
