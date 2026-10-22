@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Der Tag Manager Server verarbeitet nach dem Import eines GTM-Container alle DataLayer-Push-Events. So kann mit geringem Aufwand das E-Commerce Tracking eines Online Shops serverseitig an Analytics übermittelt werden.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Tag Manager Server - serverseitiges Google Analytics Tracking mit dem Google Tag Manager inkl. DataLayer - HOKATA Online Marketing</title>
+	<meta property="og:image" content="https://www.hokata.de/img/tag-manager-server-fb.png" />
+	<meta property="og:url" content="https://www.hokata.de/tag-manager-server/" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Tag Manager Server - serverseitiges Google Analytics Tracking mit dem Google Tag Manager inkl. DataLayer - HOKATA Online Marketing" />
+	<meta property="og:description" content="Der Tag Manager Server verarbeitet nach dem Import eines GTM-Container alle DataLayer-Push-Events. So kann mit geringem Aufwand das E-Commerce Tracking eines Online Shops serverseitig an Analytics übermittelt werden." />
+	
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Tag Manager Server - serverseitiges Google Analytics Tracking mit dem Google Tag Manager inkl. DataLayer - HOKATA Online Marketing">
+	<meta name="twitter:description" content="Der Tag Manager Server verarbeitet nach dem Import eines GTM-Container alle DataLayer-Push-Events. So kann mit geringem Aufwand das E-Commerce Tracking eines Online Shops serverseitig an Analytics übermittelt werden.">
+	<meta name="twitter:site" content="@WolframBartke">
+	<meta name="twitter:image" content="https://www.hokata.de/img/tag-manager-server-share.png">
+	<meta name="twitter:creator" content="@WolframBartke">
+    <link rel="stylesheet" href="/mdl/roboto-fonts.css" />
+    <link rel="stylesheet" href="/mdl/material-design-icons.css" />
+    <link rel="stylesheet" href="/mdl/material.grey-blue.min.css" />
+	<base href="https://www.hokata.de/" />
+	<link rel="stylesheet" href="/hokata.css?v=1.1" />
+	<link rel="stylesheet" href="/lightbox.css" />
+
+    <script src="/tms/tms.js"></script>
+    <script>window.dataLayer = window.dataLayer || []; window.dataLayer.push({'event':'gtm.js'})</script>
+</head>
+
+<body>
+<div class="hokata-layout-transparent mdl-layout mdl-js-layout">
+   <header class="mdl-layout__header mdl-layout__header--transparent">
+    <div class="mdl-layout__header-row">
+      <span class="mdl-layout-title">HOKATA</span>
+
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">HOKATA</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="./">Home</a>
+	  <a class="mdl-navigation__link" href="/tag-manager-server/">Tag Manager Server</a>
+      <a class="mdl-navigation__link" href="kontakt.html">Kontakt</a>
+      <a class="mdl-navigation__link" href="kontakt.html">Impressum</a>
+      <a class="mdl-navigation__link" href="kontakt.html">Datenschutz</a>
+    </nav>
+  </div> 
+<main class="mdl-layout__content">
+
+<div class="section-entry mdl-typography--text-center">
+          <h1>Tag Manager Server</h1>
+</div>
+
+            <div class="mdl-grid section-content" style="background-color:#276da0">
+			
+                <div class="mdl-cell mdl-cell--6-col contentData" style="padding-top:26px;" data-pid="profile_keyfacts" data-plist="main.content" data-pname="Bei HOKATA sind Sie genau richtig...">
+                    
+                        <h2 class="mdl-card__title-text" style="font-size:30px;">Serverseitiges Google Analytics Tracking mit dem Tag Manager</h2>
+                    
+                    <div class="mdl-card__supporting-text" style="padding-top:23px;">
+                        <p><strong>Inhaltsverzeichnis</strong></p>
+						<ul>
+						  <li><a href="/tag-manager-server/#tracking-lösungen">Aktuelle Tracking-Lösungen mit JavaScript</a></strong>
+						    <ul>
+							  <li><a href="/tag-manager-server/#tracking-probleme">Probleme beim Erfassen der Daten</a></li>
+							  <li><a href="/tag-manager-server/#tracking-adblocker">Die bösen AdBlocker</a></li>
+							  <li><a href="/tag-manager-server/#tracking-ursachen">Weitere Ursachen</a></li>
+							  <li><a href="/tag-manager-server/#tracking-kopie">analytics.js Kopie und Proxy</a></li>
+							</ul>
+						  </li>
+						  <li><a href="/tag-manager-server/#server-tracking">Ein Ausweg: Serverseitiges Tracking</a>
+							<ul>
+							  <li><a href="/tag-manager-server/#server-schwächen">Schwächen einer komplett serverseitigen Lösung</a></li>
+							  <li><a href="/tag-manager-server/#server-ansatz">Lösungsansatz: Der Tag Manager Server</a></li>
+							</ul>
+						  </li>
+						  <li><a href="/tag-manager-server/#prototyp">Der Prototyp</a></strong>
+							<ul>
+							  <li><a href="/tag-manager-server/#prototyp-test1">Test 1: Website Tracking</a></li>
+							  <li><a href="/tag-manager-server/#prototyp-test2">Test 2: E-Commerce Tracking</a></li>
+							  <li><a href="/tag-manager-server/#prototyp-test3">Test 3: E-Commerce Tracking über Subdomain</a></li>
+							</ul>
+						  </li>
+						  <li><a href="/tag-manager-server/#funktionen">Aktueller Funktionsumfang</a></li>
+						  <li><a href="/tag-manager-server/#updates">Updates und Zusammenarbeit</a></li>
+						</ul>
+                    </div>
+                </div>
+				
+				<div class="mdl-cell mdl-cell--6-col contentData" style="padding-top:18px;" data-pid="profile_wolfram" data-plist="main.content" data-pname="Wolfram Bartke - Online Marketing Berater">
+                    
+                    <div class="mdl-card__title">
+                        <div class="profile-circle"><img style="clip-path: circle(50px at center);width:100px;height:100px;" alt="Online Marketing und Analytics Berater Stuttgart" src="img/wolfram-bartke-hokata.jpg" /></div>
+						<h3 class="mdl-card__title-text" style="display:block;line-height:20px;padding-bottom:35px;padding-top:3px;font-size:30px;">
+						  Wolfram Bartke <br> <span style="font-size:18px;">Marketing Technologie Experte</span>
+						</h3>
+                    </div>
+					
+                    <div class="mdl-card__supporting-text">
+                        <p>
+						  <strong>Kurze Einleitung:</strong>
+						</p>
+						<p>
+						  Erfolgreiches Online Marketing basiert auf Erfahrung, Intuition, Kreativität und vor allem: auf Daten.
+						</p>
+						<p>
+						  <i>Aber wie vollständig sind diese Daten? Und wie lange haben wir noch Kontrolle über die Erhebung dieser Daten?</i>
+						</p>
+						<p>
+						  Die aktuellen Entwicklungen im Bereiche Datenschutz und Privatsphäre erschwere das Tracken von Website-Besuchern &mdash;
+						  und das völlig zu Recht.
+						  Denn vielfach ist es unverantwortlich, wie unbedarft manche Seitenbetreiber mit der Einbindung von Drittanbieter-Scripten umgehen.
+						</p>
+						<p>
+						  <i>Um meine Analytics-Daten sicherzustellen habe ich nach alternativen Tracking-Möglichkeiten gesucht und meine eigene Lösung aufgebaut.
+						  Was ich bei meiner Recherche gefunden habe, und warum ich diesen Weg eingeschlagen habe, beschreibe ich in diesem Beitrag.</i>
+						</p>
+						<p><strong>UPDATE:</strong> Der Tag Manager Server hat einen neuen Namen und ein neues Zuhause: <a href="https://dlyx.io" target="_blank">DLYX - The DataLayer Proxy</a></p>
+                    </div>
+                </div>
+            </div>
+
+
+			<div class="mdl-grid section-content">
+			
+			
+			  <div class="mdl-cell mdl-cell--8-col">
+			    <h2><a name="tracking-lösungen">Aktuelle Tracking-Lösungen mit JavaScript im Browser</a></h2>
+				<div class="mdl-card__supporting-text">
+			    <p>
+				  Moderne Web-Analyse-Systeme wie Google Analytics sammeln und senden Daten per JavaScript.
+				  Mit einem Tag Management System kann ohne Programmierkenntnisse ein individuelles Tracking aufgebaut werden.
+				  Am häufigsten eingesetzt wird hier der Google Tag Manager. Dieser basiert ebenfalls auf JavaScript.
+				</p>
+				<p>
+				  Sind die Tracking-Anforderungen komplexer, können wichtige Informationen vom CMS oder Shop-System in einen DataLayer geschrieben und vom Tag Manager verarbeitet werden.
+				  Über diesen Weg werden beispielsweise Produktdetailseiten-Aufrufe, Warenkorb-Interaktionen und Bestellungen eines Online Shops an Analytics gesendet.
+				</p>
+				<p>
+				  <i>Bei dieser Trackingmethode müssen mehrere JavaScript-Dateien vom Analytics-Server geladen und Daten zurückgesendet werden.</i>
+				</p>
+			  </div>
+			  
+			  </div>
+			
+			  <div class="mdl-cell mdl-cell--4-col">
+			    <div class="mdl-card__supporting-text" style="padding-top:40px;">
+				  <img src="img/gtm-analytics-tracking.png" alt="Google Analytics Tracking mit dem Tag Manager" width="100%" class="lightbox_opener" />
+				</div>
+			  </div>
+			  
+			  
+			  <div class="mdl-cell mdl-cell--8-col">
+			  <h3><a name="tracking-probleme">Problem: Browser können das Erfassen dieser Daten blockieren</a></h3>
+				<div class="mdl-card__supporting-text">
+			    <p>
+				  Je nach Konfiguration des Browsers kann das gesamte Tracking blockiert werden.
+				  Entweder hat der Besucher spezielle Browser-Erweiterungen installiert oder strengere Privatsphäre-Einstellungen vorgenommen.
+				</p>
+				<p>
+				  Beim Vergleich der realen Bestellungen in einem Online Shop mit den Daten aus Google Analytics wird dieses Problem schnell sichtbar.
+				  Üblicherweise fehlen in Analytics 5% bis 15% der Bestellungen.
+			  </div>
+			  </div>
+
+			  <div class="mdl-cell mdl-cell--4-col">
+			    <div class="mdl-card__supporting-text" style="text-align:center;">
+<style>
+/* https://medium.com/@heyoka/scratch-made-svg-donut-pie-charts-in-html5-2c587e935d72 */
+.chart-text {
+  /*font: 16px/1.4em "Montserrat", Arial, sans-serif;*/
+  fill: #fff;
+  -moz-transform: translateY(0.25em);
+  -ms-transform: translateY(0.25em);
+  -webkit-transform: translateY(0.25em);
+  transform: translateY(0.25em);
+}
+.chart-number {
+  font-size: 0.25em;
+  line-height: 1;
+  text-anchor: middle;
+  -moz-transform: translateY(-0.25em);
+  -ms-transform: translateY(-0.25em);
+  -webkit-transform: translateY(-0.25em);
+  transform: translateY(-0.25em);
+}
+.chart-label {
+  font-size: 0.13em;
+  text-anchor: middle;
+  -moz-transform: translateY(0.7em);
+  -ms-transform: translateY(0.7em);
+  -webkit-transform: translateY(0.7em);
+  transform: translateY(0.7em);
+}
+</style>
+<svg width="60%" height="60%" viewBox="0 0 42 42" class="donut">
+  <circle class="donut-ring" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#f27a03" stroke-width="5"></circle>
+
+  <circle class="donut-segment" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#ffc71f" stroke-width="5" stroke-dasharray="95 5" stroke-dashoffset="25"></circle>
+  <circle class="donut-segment" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#4fc3f7" stroke-width="5" stroke-dasharray="85 15" stroke-dashoffset="25"></circle>
+  
+<g class="chart-text">
+        <text x="50%" y="40%" class="chart-number">
+          5% bis 15%
+        </text>
+		<text x="50%" y="40%" class="chart-label">
+          weniger Bestellungen
+        </text>
+      </g>
+</svg>
+				</div>
+			  </div>
+			  			  
+			  <div class="mdl-cell mdl-cell--8-col">
+			  <h3><a name="tracking-adblocker">Häufigste Ursache: AdBlocker</a></h3>
+				<div class="mdl-card__supporting-text">
+			    <p>
+				  Diese Browser-Erweiterungen blockieren von sich aus noch kein Tracking, aber die prominente Position und bedrohliche Beschreibung in den AddOn-Einstellungen bewegt ca. 50% der Nutzer dazu, diese Funktion zu aktivieren.
+				  
+				</p>
+				<p>
+				  <i>Nach der Aktivierung kann beispielsweise die Datei analytics.js vom Google Analytics Server nicht geladen werden und blockiert somit das Tracking &mdash; auch wenn der Tag Manager noch einwandfrei funktioniert.</i>
+				</p>
+				
+				<!--<p>
+				  Bei vielen Projekten dauert der Aufbau und die Optimierung solcher Tracking-Lösung mehrere Monate. Marketingleiter müssen Anforderungen definieren, Programmierer benötigen
+				  eindeutige Vorgaben und das Testen einzelner Funktionen kann viele Stunden in Anspruch nehmen.
+				</p>-->
+			  </div>
+			  </div>
+
+			  <div class="mdl-cell mdl-cell--4-col">
+			    <div class="mdl-card__supporting-text" style="padding-top:40px;">
+				  <img src="img/analytics-adblocker.png" alt="Das Google Analytics Script analytics.js wird vom AdBlocker blockiert und kann nicht geladen werden." width="100%" class="lightbox_opener" />
+				</div>
+			  </div>
+			  
+			
+			
+			<div class="mdl-cell mdl-cell--8-col">
+			<h3><a name="tracking-ursachen">Weitere Ursachen: Privatsphäre-Einstellungen der Browser</a></h3>
+				<div class="mdl-card__supporting-text">
+			    <p>
+				  Etwas anders, aber mindestens genauso effektiv, funktionieren die Privatsphäre-Einstellungen der Browser.
+				  Hier kann beispielsweise Firefox mit ETP, Safari mit ITP oder der Brave-Browser im Tor-Modus das Tracking komplett unterbinden.
+				</p>
+				<p>
+				  Hinzu kommen weiter Einschränkungen beim JavaScript-Zugriff auf Cookies und andere Browser-Speicher.
+				  Dies reicht von verkürzter Cookie-Laufzeitdauer bis zur Zugriffsverweigerung auf SessionStorage, LocalStorage und IndexDB.
+				</p>
+				<p>
+				  <i>Auch wenn diese Entwicklungen noch keine große Auswirkung zeigen, können zukünftige Updates das Tracking stark beeinflussen.
+				  <br>
+				  In diesem Zusammenhang empfehle ich diesen ausführlichen <a href="https://www.markus-baersch.de/blog/wie-itp-2-1-webanalyse-bedroht-was-man-tun-kann-und-ob-man-es-sollte/" target="_blank" style="text-decoration:underline;">Artikel zum Thema Intelligent Tracking Prevention</a> von Markus Baersch.
+				  </i>
+				</p>
+				<!--<p>Welche Einschränkungen das genau sind hat Markus Baersch getestet und ausführlich in seinem Blog beschrieben.</p>-->
+			  </div>
+			  </div>
+
+			  <div class="mdl-cell mdl-cell--4-col">
+			    <div class="mdl-card__supporting-text">
+				  <img src="img/browser-analytics-blocker.png" alt="Browser können das Tracking komplett unterbinden und den JavaScript-Zugriff auf Cookies und andere Browser-Speicher einschränken." width="100%" class="lightbox_opener" />
+				</div>
+			  </div>
+			  
+			  <div class="mdl-cell mdl-cell--8-col">
+			<h3><a name="tracking-kopie">Selbst gehostete analytics.js und Proxy-Umleitungen sind leicht zu erkennen</a></h3>
+				<div class="mdl-card__supporting-text">
+			    <p>
+				  Der einfachste Weg die Blockierung zu umgehen wäre die Einbindung einer Kopie der Tracking-Scripte auf dem eigenen Server oder das Zwischenschalten eines Proxy-Server.
+				  Diese Techniken werden aber jetzt schon von manchen AdBlockern und Browsern erkannt. Andere andere werden sich dieses Vorgehen eventuell abschauen.
+				</p>
+				<p>
+				  <i>Auch wenn nicht 100% der Besucher erfasst werden müssen, sollte jeder sein aktuelles Tracking-Setup kritisch hinterfragen und wichtige Entwicklungen im Blick behalten.</i>
+				</p>
+			  </div>
+			  </div>
+
+			  <div class="mdl-cell mdl-cell--4-col">
+			    <div class="mdl-card__supporting-text">
+				  &nbsp;
+				</div>
+			  </div>
+			  
+			</div>
+			
+			
+			<div class="mdl-grid section-content">
+			
+			
+			  <div class="mdl-cell mdl-cell--8-col">
+			    <h2><a name="server-tracking">Ein Ausweg: Serverseitiges Tracking</a></h2>
+				<div class="mdl-card__supporting-text">
+				<p>
+				  Als Seitenbetreiber möchte ich selbst bestimmen, welche Daten erfasst und wohin diese gesendet werden.
+				  Updates von Browsern oder AddOns dürfen meine Analytics-Zahlen nicht negativ beeinflussen.
+				  Viel mehr sollte ich mich auf das Tracken relevanter Daten konzentrieren und dabei rechtliche Vorschriften und unternehmerische Risiken berücksichtigen.
+				</p>
+				<p>
+				  <i>Auch mit dem Überwinden technischer Hürden kann ich einen Wettbewerbsvorteil schaffen.</i>
+				</p>
+			  </div>
+			  
+			  </div>
+			
+			  <div class="mdl-cell mdl-cell--4-col">
+			    <div class="mdl-card__supporting-text" style="padding-top:40px;">
+				  <img src="img/server-2-server-tracking.png" alt="Serverseitiges Google Analytics Tracking" width="100%" class="lightbox_opener" />
+				</div>
+			  </div>
+			  
+			  <div class="mdl-cell mdl-cell--8-col">
+				<h3><a name="server-schwächen">Schwächen einer komplett serverseitigen Lösung</a></h3>
+				<div class="mdl-card__supporting-text">
+				<p>
+				  Wenn ein Webserver die Tracking-Daten direkt an den Analytics-Server sendet, ohne den Umweg über einen Browser zu gehen, werden höchstwahrscheinlich Daten fehlen.
+				  Zum einen sind es technische Informationen welche nur über JavaScript ausgelesen werden können und zum anderen müssen Interaktionen auf einer Webseite ebenfalls mit JavaScript im Browser erfasst und übermittelt werden.
+				</p>
+				<p>
+				  Zusätzlich möchte ich nur ungern auf den Komfort des Google Tag Manager und den DataLayer verzichten.
+				  Und genauso wenig möchte ich den mühsam aufgebauten DataLayer über Bord werfen, denn der Aufbau eines neuen Tracking wird mit Sicherheit nicht einfacher.
+				</p>
+				<p>
+				  <i>Das Zusammenspiel von Backend, DataLayer, Tag Manager und Analytics ist einfach zu gut.</i>
+				</p>
+			  </div>
+			  
+			  </div>
+			
+			  <div class="mdl-cell mdl-cell--4-col">
+			    <div class="mdl-card__supporting-text" style="padding-top:40px;">
+				  <img src="img/server-2-server-datalayer.png" alt="Der Google Tag Manager und der DataLayer sind sehr komfortabel. Darauf möchte ich nicht verzichten." width="100%" class="lightbox_opener" />
+				</div>
+			  </div>
+			  			  
+			  <div class="mdl-cell mdl-cell--8-col">
+				<h3><a name="server-ansatz">Lösungsansatz: Der Tag Manager Server</a></h3>
+				<div class="mdl-card__supporting-text">
+				<p>
+				  Also einfach den aktuellen Tag Manager Container auf einen Server übertragen und das serverseitige Tracking per Knopfdruck aktivieren? Ja, genau das wäre perfekt!
+				</p>
+				<p>
+				  Technisch ist es möglich den Container über eine API auszulesen oder als JSON-Datei zu exportieren.
+				  Dann fehlt eigentlich nur noch das Abfangen der DataLayer-Push-Events &mdash; und auch das ist mit wenigen Zeilen JavaScript-Code möglich.
+				  <br>
+				  Natürlich ist es nicht notwendig den Google Tag Manager 1:1 auf einem Server nachzubauen, aber beim Großteil der Tags, Trigger und Variablen ist es kein Hexenwerk.
+				</p>
+				<p>
+				  <i>Um den Aufwand und Effekt besser einschätzen zu können, habe ich mich entschieden, einen Prototyp zu erstellen.</i>
+				</p>
+			  </div>
+			  
+			  </div>
+			
+			  <div class="mdl-cell mdl-cell--4-col">
+			    <div class="mdl-card__supporting-text" style="padding-top:40px;">
+				  <img src="img/tms-server.png" alt="Der Google Tag Manager Server verarbeitet den DataLayer und sendet Tracking-Daten an Google Analytics." width="100%" class="lightbox_opener" />
+				</div>
+			  </div>
+			  
+			  
+			  
+			  
+			</div> <!-- end mdl-grid section-content -->
+			
+			
+			<div class="mdl-grid section-content">
+			
+			
+			  <div class="mdl-cell mdl-cell--8-col">
+			    <h2><a name="prototyp">Der Prototyp</a></h2>
+				<div class="mdl-card__supporting-text">
+				<p>
+				  Ein Container-Import und das Abfangen der DataLayer-Push-Events ist relativ schnell umgesetzt.
+				  Komplexer hingegen ist die Verarbeitung des DataLayer innerhalb einer Server-Session.
+				  Denn häufig werden viele Push-Events an den DataLayer gesendet, und manchmal sendet ein einziger Besucher viele parallele Events aus mehreren Browser-Tabs.
+				</p>
+				<p>
+				  Ist dieses Problem gelöst, muss auch das Löschen veralteter DataLayer-Daten berücksichtigt werden, denn Sie verschwinden nicht einfach so aus einer Server-Session.
+				  Und solche Daten können im Live-Betrieb zu ganz neuen Problemen führen.
+				  Zusätzlich benötigt man einen Debug-Mode mit Ausgabe im Browser, um den Blindflug beim Programmieren zu beenden.
+				</p>
+				<p><i>Spätestens hier wurde mir klar: Entweder höre ich jetzt auf oder es ist bald mehr als nur ein Prototyp.</i></p>
+			  </div>
+			  
+			  </div>
+			
+			  <div class="mdl-cell mdl-cell--4-col">
+			    <div class="mdl-card__supporting-text" style="padding-top:40px;">
+				  <img src="img/tag-manager-server.png" alt="Der Tag Manager Server verarbeitet nach dem Import eines GTM-Container alle DataLayer-Push-Events." width="100%" class="lightbox_opener" />
+				</div>
+			  </div>
+			  			
+			  <div class="mdl-cell mdl-cell--8-col">
+				<h3><a name="prototyp-test1">Erster Test: Webseite-Tracking</a></h3>
+				<div class="mdl-card__supporting-text">
+				<p>
+				 Natürlich konnte ich nicht einfach aufhören. Und glücklicherweise hat mir der erste Testlauf gezeigt, dass ich auf dem richtigen Weg bin.
+				 Diese einfache Webseite mit überschaubarem Traffic, ohne Conversions, war ziemlich langweilig. Also wollte ich einen Schritt weiter gehen.
+				</p>
+				<p><i>Was ich bei diesem Test gelernt habe:</i></p>
+				<ul style="font-style:italic">
+				  <li>Referrer, Title und Bildschirmauflösung müssen per JavaScript im DataLayer ergänzt werden.</li>
+				  <li>An Google Analytics kann ich jede x-beliebige IP-Adresse senden und somit meine Besucher besser schützen.</li>
+				</ul>
+			  </div>
+			  
+			  </div>
+			
+			  <div class="mdl-cell mdl-cell--4-col">
+			    <div class="mdl-card__supporting-text" style="padding-top:40px;">
+				  &nbsp;
+				</div>
+			  </div>
+			  			
+			  <div class="mdl-cell mdl-cell--8-col">
+				<h3><a name="prototyp-test2">Zweiter Test: Erweitertes E-Commerce Tracking</a></h3>
+				<div class="mdl-card__supporting-text">
+				<p>
+				 Nachdem ich einen Online-Shop-Kunden von meinem neuen Tracking-Konzept überzeugen konnte, lief auch dieser Test nach wenigen Tagen.
+				 Eine Woche später zeigte der Vergleich der beiden Analytics Properties den erhofften Unterschied.
+				 In der neuen Property wurden nicht nur 84% sondern 99% aller Bestellungen angezeigt.
+				</p>
+				<p><i>Was ich bei diesem Test gelernt habe:</i></p>
+				<ul style="font-style:italic">
+				  <li>Die verschachtelten DataLayer-Variablen und Suchtabellen funktionieren wirklich!
+				  <ul><li>Mehrsprachige Online Shops mit einem Container, verteilt auf separate Domains und Properties, werden also wunderbar funktionieren.</li></ul>
+				  </li>
+				  <li>EEC-Daten im DataLayer werden verarbeitet.</li>
+				  <li>E-Commerce-Daten im DataLayer dürfen bei mehreren Events auf einer Seite nur einmal gesendet werden. So macht es auch der GTM.</li>
+				  <li>Manchmal überholen sich Push-Events gegenseitig. Diese müssen ausgebremst und sequenziell abgearbeitet werden.</li>
+				</ul>
+			  </div>
+			  
+			  </div>
+			
+			  <div class="mdl-cell mdl-cell--4-col">
+			    <div class="mdl-card__supporting-text" style="text-align:center;">
+<svg width="60%" height="60%" viewBox="0 0 42 42" class="donut">
+  <circle class="donut-ring" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#f27a03" stroke-width="5"></circle>
+
+  <circle class="donut-segment" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#4fc3f7" stroke-width="5" stroke-dasharray="84 16" stroke-dashoffset="25"></circle>
+  
+<g class="chart-text">
+        <text x="50%" y="40%" class="chart-number">
+          84%
+        </text>
+		<text x="50%" y="40%" class="chart-label">
+          bisheriges Tracking
+        </text>
+      </g>
+</svg>
+<svg width="60%" height="60%" viewBox="0 0 42 42" class="donut">
+  <circle class="donut-ring" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#f27a03" stroke-width="5"></circle>
+
+  <circle class="donut-segment" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#5bcc3b" stroke-width="5" stroke-dasharray="99 1" stroke-dashoffset="25"></circle>
+  <circle class="donut-segment" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#4fc3f7" stroke-width="5" stroke-dasharray="84 16" stroke-dashoffset="25"></circle>
+  
+<g class="chart-text">
+        <text x="50%" y="40%" class="chart-number">
+          99%
+        </text>
+		<text x="50%" y="40%" class="chart-label">
+          Tag Manager Server
+        </text>
+      </g>
+</svg>
+				</div>
+			  </div>
+			  			
+			  <div class="mdl-cell mdl-cell--8-col">
+				<h3><a name="prototyp-test3">Dritter Test: E-Commerce Tracking über eine Subdomain</a></h3>
+				<div class="mdl-card__supporting-text">
+				<p>
+				  Der zweite Online Shop hatte um einiges mehr Traffic und viel mehr Umsatz als der vorherige.
+				  Den direkten Zugriff auf Shop-Server hätte ich nicht bekommen und wollte ihn eigentlich auch gar nicht haben.
+				  <br>  
+				  
+				  Also blieb mir nichts anderes übrig als den Kunden um eine Subdomain zu bitten und die Tracking-Scripte auf einem eigenen Server zu betreiben.
+				</p>
+				<p>
+				  Da im Shop-Template nur eine einzige JavaScript-Datei integriert werden musste, war der Aufwand auf Kundenseite sehr gering und konnte innerhalb weniger Tage Live gestellt werden.
+				</p>
+				<p><i>Was ich bei diesem Test gelernt habe:</i></p>
+				<ul style="font-style:italic">
+				  <li>Das Handling von Subdomain-Cookies in Verbindung mit Ajax-Requests sind schwieriger, als ich dachte.</li>
+				  <li>Ich brauche einen besseren Debug-Modus.</li>
+				  <li>Weniger JavaScript-Variablen im GTM machen es leichter.</li>
+				  <li>Nachgelagerte Push-Events mit JavaScript im GTM sind vielleicht doch doof.</li>
+				</ul>
+			  </div>
+			  
+			  </div>
+			
+			  <div class="mdl-cell mdl-cell--4-col">
+			    <div class="mdl-card__supporting-text" style="padding-top:40px;">
+				  &nbsp;
+				</div>
+			  </div>
+			  
+			  
+			</div> <!-- end mdl-grid section-content -->
+
+			
+			<div class="mdl-grid section-content">
+			
+			
+			  <div class="mdl-cell mdl-cell--8-col">
+			    <h2><a name="funktionen">Aktueller Funktionsumfang des Tag Manager Server</a></h2>
+				<div class="mdl-card__supporting-text">
+				<p>
+				  Die bisherigen Testläufe haben gezeigt, dass diese serverseitige Tracking-Lösung funktioniert und mit geringem Aufwand auf andere Projekte übertragen werden kann.
+				  Auch wenn das Potenzial von diesem Tracking-Server noch nicht komplett entfaltet ist, kann er trotzdem als Tracking Ergänzung bei Online Shops eingesetzt werden.
+				</p>
+				<p>
+				  <i>Ich habe es also geschafft ein <a href="https://dlyx.io/de/serverseitiges-tracking/" taget="_blank">serverseitiges Tracking mit dem Google Tag Manager inkl. DataLayer (dlyx.io)</a> aufzubauen.</i>
+				</p>
+			  </div>
+			  </div>
+			  
+			  <div class="mdl-cell mdl-cell--4-col">
+			    <div class="mdl-card__supporting-text" style="padding-top:40px;text-align:center;">
+				  <img src="img/tms-settings.png" alt="Tags Manager Server Einstellungen im GTM über ein Custom Template." width="90%"  class="lightbox_opener" />
+				</div>
+			  </div>
+			
+			  <div class="mdl-cell mdl-cell--8-col">
+			    <h3>GTM Tags</h3>
+				<div class="mdl-card__supporting-text">
+				<p>
+				  Aktuell wird nur der Universal Analytics Tag mit Pageviews und Events unterstützt.
+				  Dabei können benutzerdefinierte Dimensionen und Metriken inkl. Enhanced Ecommerce Daten übermittelt werden. 
+				</p>
+				<p>
+				  <i>Alle weiteren Tags werden noch ignoriert. Eine Übersetzung der meisten übrigen Tags kann bei Bedarf nachgezogen werden.</i>
+				</p>
+			  </div>
+			  </div>
+			  
+			  <div class="mdl-cell mdl-cell--4-col">
+			    <div class="mdl-card__supporting-text" style="padding-top:40px;text-align:center;">
+				  <img src="img/tms-tags.png" alt="Aktuell wird nur der Universal Analytics Tag mit Pageviews und Events unterstützt." width="65%" class="lightbox_opener" />
+				</div>
+			  </div>
+			
+			  <div class="mdl-cell mdl-cell--8-col">
+			    <h3>GTM Trigger</h3>
+				<div class="mdl-card__supporting-text">
+				<p>
+				  Neben dem <i>Seitenaufruf</i>, <i>DOM ist bereit</i> und <i>Fenster geladen</i>, können auch <i>Benutzdefinierte Ereignisse</i> verarbeitet werden.
+				  Auch alle Trigger-Filter, mit Ausnahme des CSS_SELECTOR, werden bereits berücksichtig.
+				  Wobei reguläre Ausdrücke nicht von JavaScript, sondern PHP interpretiert werden und eine Übersetzung verlangt.
+				</p>
+				<p>
+				  <i>Je nach Anforderung können später weitere Trigger umgesetzt werden, auch wenn diese zusätzlichen JavaScript-Code benötigen.</i>
+				</p>
+			  </div>
+			  </div>
+			  
+			  <div class="mdl-cell mdl-cell--4-col">
+			    <div class="mdl-card__supporting-text" style="text-align:center;">
+				  <img src="img/tms-trigger.png" alt="Aktuelle GTM-Trigger des Tag Manager Server." width="90%"  class="lightbox_opener" />
+				  <br>&nbsp;<br>				  
+				  <img src="img/tms-trigger-filter.png" alt="Alle Trigger-Filter, mit Ausnahme des CSS_SELECTOR, werden bereits berücksichtig." width="90%" class="lightbox_opener" />
+				</div>
+			  </div>
+			
+			  <div class="mdl-cell mdl-cell--8-col">
+			    <h3>GTM Variablen</h3>
+				<div class="mdl-card__supporting-text">
+				<p>
+				  Auch hier liegt mein Fokus auf den JavaScript-losen Variablen mit einigen wenigen Ausnahmen,
+				  welche über den DataLayer an den Server übermittelt werden.
+				  Somit stehen aktuell folgende Variablen zur Verfügung:
+				</p>
+				<ul>
+				  <li>HTTP-Verweis-URL</li>
+				  <li>URL</li>
+				  <li>Datenschichtvariable</li>
+				  <li>Benutzerdefiniertes Ereignis</li>
+				  <li>Google Analytics-Einstellungen</li>
+				  <li>Konstant</li>
+				  <li>RegEx-Tabelle</li>
+				  <li>Suchtabelle</li>
+				</ul>
+				<p>
+				  <i>Neben den existierenden GTM-Variablen werden spezielle Variablen wie Client-ID, Session-ID und Hit-Timestamp erzeugt und können als Custom Dimension übermittelt werden.</i>
+				</p>
+			  </div>
+			  </div>
+			  
+			  <div class="mdl-cell mdl-cell--4-col">
+			    <div class="mdl-card__supporting-text" style="text-align:center;">
+				  <img src="img/tms-variablen.png" alt="Aktuelle GTM-Variablen des Tag Manager Server." width="90%" class="lightbox_opener" />
+				</div>
+			  </div>
+			
+			  <div class="mdl-cell mdl-cell--8-col">
+			    <h3>Enhanced Ecommerce Tracking</h3>
+				<div class="mdl-card__supporting-text">
+				<p>
+				  Für einen Online Shop sind E-Commerce Daten der wichtigste Bestandteil vom Tracking. Diese werden direkt aus dem DataLayer übernommen und funktionieren jetzt schon mit diesen Aktionen:
+				</p>
+				<ul>
+				  <li>impression</li>
+				  <li>detail</li>
+				  <li>addToCart / removeFromCart</li>
+				  <li>checkout steps</li>
+				  <li>purchase</li>
+				</ul>
+				<p>
+				  <i>Weitere folgen, wenn es ein Projekt verlangt.</i>
+				</p>
+			  </div>
+			  </div>
+			  
+			  <div class="mdl-cell mdl-cell--4-col">
+			    <div class="mdl-card__supporting-text" style="padding-top:40px;text-align:center;">
+				  <img src="img/tms-eec-datalayer.png" alt="E-Commerce Daten aus dem DataLayer können bereits verarbeitet werden." width="90%" class="lightbox_opener" />
+				</div>
+			  </div>
+
+			</div> <!-- end mdl-grid section-content -->
+			
+			<div class="mdl-grid section-content">
+			
+			
+			  <div class="mdl-cell mdl-cell--6-col">
+			    <h2><a name="updates">Updates und Zusammenarbeit</a></h2>
+				<div class="mdl-card__supporting-text">
+			    <p>
+				  Updates werde ich <a href="/tag-manager-server/#">hier</a>, auf <a href="https://twitter.com/WolframBartke" target="_blank">Twitter</a> und <a href="https://www.facebook.com/wolfram.bartke" target="_blank">Facebook</a> veröffentlichen.
+				</p>
+				<p>
+				  Falls ihr an einem Austausch zum serverseitigen Tracking interessiert seid, könnt ihr mich gerne über Facebook oder E-Mal anschreiben: <a href="mailto:tms@hokata.de;">tms@hokata.de</a>
+				</p>
+				<p>
+				  Weitere Informationen unter: <a href="https://www.tagmanagerserver.com/" target="_blank">www.tagmanagerserver.com</a> (alte Seite)
+				</p>
+				
+			  </div>
+			  
+			  </div>
+			
+			  <div class="mdl-cell mdl-cell--6-col">
+                    <div class="mdl-card__title" style="padding-top:20px;">
+                        <div class="profile-circle"><img style="clip-path: circle(50px at center);width:100px;height:100px;" alt="Online Marketing und Analytics Berater Stuttgart" src="img/wolfram-bartke-hokata.jpg" /></div>
+						<h3 class="mdl-card__title-text" style="display:block;line-height:20px;padding-bottom:35px;padding-top:3px;font-size:30px;">
+						  Wolfram Bartke <br> <span style="font-size:18px;">Online Marketing Berater</span>
+						</h3>
+                    </div>
+			  </div>
+
+
+			  <div class="mdl-cell mdl-cell--6-col">
+			    <h2>UPDATE: DLYX - The DataLayer Proxy</h2>
+				<div class="mdl-card__supporting-text">
+				<p>
+				  Um meine Software besser von Googles server-side Tagging Lösung abzugrenzen, setzte ich auf einen neuen Namen.
+				  Mein Fokus liegt von Anfang an auf der Weiterverwendung des dataLayer.
+				  Aus diesem Grund habe ich einen passenden Namen mit einer .io-Domain gewählt:<br>
+				  <a href="https://dlyx.io" target="_blank">DLYX - The DataLayer Proxy -  dlyx.io</a>
+				</p>
+
+			  </div>
+			  
+			  </div>
+			
+			  <div class="mdl-cell mdl-cell--6-col">
+			    <div class="mdl-card__supporting-text" style="padding-top:40px;text-align:center;background-color:#fff;">
+				  <img src="https://dlyx.io/img/client-server-tracking.png" alt="Serverseitiges Google Analytics Tracking mit dem DLYX DataLayer Proxy" width="90%" class="lightbox_opener" />
+				</div>
+			  </div>
+			  
+			</div> <!-- end mdl-grid section-content -->
+
+
+            <div class="mdl-grid section-footer">
+			  <div class="mdl-cell mdl-cell--6-col footer-left">
+			    <p>&copy; 2019 HOKATA Online Marketing</p>
+				<p>Wildunger Str. 47<br>70372 Stuttgart<br>Tel.: +49 (0)711 870 38 25</p>
+			  </div>
+			  <div class="mdl-cell mdl-cell--6-col footer-right">
+			    <p><a href="kontakt.html">Impressum</a> | <a href="kontakt.html">Datenschutz</a></p>
+			  </div>
+            </div>
+
+        </main>
+  
+</div>
+
+<div id="modal_lightbox" class="lightbox_modal">
+  
+  <div class="modal-content">
+  
+    <div id="lightbox_slides">
+      <div class="mySlides">
+        <img src="img/gtm-analytics-tracking.png" alt="" />
+      </div>
+    </div>
+	<span class="close cursor" onclick="closeModal()">&times;</span>
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+    <div class="caption-container">
+      <p id="caption"></p>
+    </div>
+
+  </div>
+</div>
+<script src="tms/tms.vis.js"></script>
+<script>
+function openModal() {
+  document.getElementById("modal_lightbox").style.display = "block";
+}
+
+function closeModal() {
+  document.getElementById("modal_lightbox").style.display = "none";
+}
+
+var contentAnker = document.querySelectorAll("a[name]");
+for (var i = 0; i < contentAnker.length; i++) {
+  contentAnker[i].setAttribute('data-depth', i+1);
+}
+
+var opener = document.getElementsByClassName("lightbox_opener");
+var aSlideHtml = [];
+for (var i = 0; i < opener.length; i++) {
+  opener[i].setAttribute('data-nr', i+1);
+  opener[i].addEventListener("click", clickOpener);
+  aSlideHtml.push('<div class="mySlides"><img src="'+opener[i].src+'" alt="" /></div>');
+}
+document.getElementById("lightbox_slides").innerHTML = aSlideHtml.join('');
+function clickOpener(){
+	openModal();
+	currentSlide(parseInt(this.getAttribute('data-nr')));
+}
+
+var slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+  }
+  slides[slideIndex-1].style.display = "block";
+  captionText.innerHTML = opener[slideIndex-1].alt;
+}
+
+document.onkeydown = checkKey;
+
+function checkKey(e) {
+    e = e || window.event;
+	if (e.key == 'ArrowLeft') { // left arrow
+       plusSlides(-1);
+    }
+    else if (e.key == 'ArrowRight') { // right arrow
+       plusSlides(1);
+	}
+    else if (e.key == 'Escape') { // right arrow
+       closeModal();
+    }
+
+}
+</script>
+
+<script src="mdl/material.min.js"></script>
+</body>
+
+</html>

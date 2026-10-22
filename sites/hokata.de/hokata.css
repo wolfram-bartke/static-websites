@@ -1,0 +1,229 @@
+a[name] {
+	margin-top:-50px;
+	padding-top:50px;
+	font-weight:300;
+}
+
+.mdl-layout__content {
+  padding-bottom:0;
+}
+.mdl-mini-footer {
+  margin-top:50px;
+  background-color:#174160;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+}
+
+.hokata-layout-transparent {
+    background-image: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url(img/hg6.jpg);
+	background-repeat: no-repeat;
+    background-size: 100%;
+	background-color:#202124;
+}
+.hokata-layout-transparent .mdl-layout__header,
+.hokata-layout-transparent .mdl-layout__drawer-button {
+  color: white;
+}
+
+.mdl-layout__drawer {
+  background-color:#276da0;
+  color:#fff;
+}
+
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
+  color:#fff;
+  
+}
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link:hover {
+  color:#276da0;
+  background-color:#fff;
+}
+
+.section-entry {
+  position: relative;
+  width: auto;
+  color:#fff;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+}
+.section-entry h1 {
+  margin:130px 0 130px 0;
+}
+.entry-subline {
+  margin:0 0 130px 0;
+}
+
+.section-content {
+  margin-bottom:40px;
+  padding:0 0 0 0;
+  background-position: top right;
+  background-repeat: no-repeat;
+  background-image: url(img/hg-corner.png);
+  background-image: radial-gradient(to bottom left, rgba(39, 109, 160, 0.5) , rgba(39, 109, 160, 1) ), url(img/hg.svg);
+  background-color:#276da0;
+  max-width: 1200px;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+}
+.section-content a {
+  color:#fff;
+  text-decoration:none;
+}
+
+.section-footer {
+  padding:10px 0 0 0;
+  background-color:#174160;
+  color:#a2b3bf;
+  max-width: 1200px;
+}
+
+.section-footer .footer-left {
+  padding:0 0 0 21px;
+}
+.section-footer .footer-right {
+  padding:0 21px 0 0;
+  text-align:right;
+}
+
+.section-footer a {
+  color:#a2b3bf;
+  text-decoration:none;
+}
+.section-footer a:hover {
+  color:#fff;
+}
+
+p {
+  margin: 0 0 10px;
+  
+}
+
+ul, ol, p {
+  font-size:18px;
+  font-weight:300;
+}
+
+.section-content-head {
+  max-width: 1200px;
+  /*background-color:#276da0;
+  padding:0 0 0 0;*/
+}
+.section-content h2 {
+  color:#fff;
+  font-size:30px;
+  line-height:36px;
+  font-weight:300;
+  margin:0 0 0 0;
+  padding:20px 0 10px 20px;
+}
+
+.section-content h3 {
+  color:#fff;
+  font-size:25px;
+  line-height:30px;
+  font-weight:300;
+  margin:0 0 0 0;
+  padding:20px 0 10px 20px;
+}
+
+.section-content .datenschutz h2 {
+  color:#fff;
+  font-size:30px;
+  font-weight:300;
+  margin:0 0 0 0;
+  padding:0;
+}
+
+.section-content .datenschutz h3 {
+  color:#fff;
+  font-size:24px;
+  font-weight:300;
+  margin:0 0 0 35px;
+  padding:0;
+}
+
+.section-content .datenschutz p {
+  color:#fff;
+  font-size:18px;
+  margin-left:50px;
+}
+.section-content .datenschutz ul {
+  color:#fff;
+  font-size:18px;
+  margin-left:50px;
+}
+.section-content .datenschutz a {
+ text-decoration:underline;
+}
+
+.mdl-layout__header-row .mdl-navigation__link {
+  color:#fff;
+}
+
+.profile-circle {
+  width: 100px;
+  height: 100px;
+  margin: 8px 27px 8px -3px;
+  /*
+  border-radius: 50px;
+  background: url(img/wolfram-bartke.jpg) center / cover;
+  */
+}
+
+.mdl-card__supporting-text {
+  color:#000000de;
+  color:#fff;
+  font-size:18px;
+  line-height:22px;
+  padding:0px 16px 16px 20px;
+  font-weight:300;
+}
+
+.mdl-card__title {
+  padding:0px 16px 16px 20px;
+}
+
+.mdl-card__title-text {
+  font-size:24px;
+  color:#fff;
+}
+
+.mdl-card__actions.mdl-card--border {
+    border-top: 1px solid rgba(255,255,255,0.5);
+}
+
+.mdl-cell.mdl-cell--4-col {
+    text-decoration:none;
+}
+/*
+.mdl-cell.mdl-cell--4-col:hover {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+	cursor:pointer;
+}
+*/
+
+
+.teaser-list   {
+  padding:0 0 15px 10px;
+  margin:0 0 20px 0;
+}
+
+.teaser-list .mdl-list__item-primary-content div  {
+  padding-top:10px;
+  color:#fff;
+  font-size:24px;
+  line-height:20px;
+  font-weight:300;
+}
+.teaser-list .mdl-list__item-primary-content small  {
+  font-size:18px;
+}
+
+.teaser-list .mdl-list__item-avatar, .teaser-list .mdl-list__item-avatar.material-icons {
+    height: 60px;
+    width: 60px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background-color: #1f5780;
+    font-size: 40px;
+    color: #fff;
+	text-align:center;
+	line-height:60px;
+}

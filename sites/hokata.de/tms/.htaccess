@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteRule ^api.php$ https://hokata.tagmanagerserver.com/api.php [P]
+RewriteRule ^tms.js$ https://hokata.tagmanagerserver.com/tms.js [P]
+RewriteRule ^tms.vis.js$ https://hokata.tagmanagerserver.com/tms.vis.js [P]

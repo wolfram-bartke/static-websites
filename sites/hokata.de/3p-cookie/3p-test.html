@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>3p-cookie test</title>
+
+<body>
+
+<script>
+// URL des PHP-Skripts
+const url = 'https://dlyx.io/3p-cookie/cookie-handler.php';
+
+// Funktion zum Setzen eines Cookies
+function setCookie() {
+  fetch(url, {
+    method: 'POST',
+    credentials: 'include', // Cookies senden und empfangen
+    headers: {
+      'Content-Type': 'application/json', // Optional, falls du Daten sendest
+    },
+    body: JSON.stringify({ action: 'setCookie' }), // Optional, falls du zusätzliche Daten senden möchtest
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Fehler: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => console.log('Setzen des Cookies:', data))
+    .catch(error => console.error('Fehler beim Setzen des Cookies:', error));
+}
+
+// Funktion zum Abrufen der Cookies
+function getCookies() {
+  fetch(url, {
+    method: 'GET',
+    credentials: 'include', // Cookies senden und empfangen
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Fehler: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => console.log('Cookies abgerufen:', data.cookies))
+    .catch(error => console.error('Fehler beim Abrufen der Cookies:', error));
+}
+
+// Setzen und Abrufen der Cookies
+setCookie(); // Cookie setzen
+setTimeout(getCookies, 1000); // Cookies nach 1 Sekunde abrufen
+
+
+
+</script>
+
+
+</body>
+
+</html>
+
+
