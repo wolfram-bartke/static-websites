@@ -1,0 +1,651 @@
+{
+    "exportFormatVersion": 2,
+    "exportTime": "2020-07-09 13:39:28",
+    "containerVersion": {
+        "path": "accounts/136157975/containers/13562861/versions/0",
+        "accountId": "136157975",
+        "containerId": "13562861",
+        "containerVersionId": "0",
+        "container": {
+            "path": "accounts/136157975/containers/13562861",
+            "accountId": "136157975",
+            "containerId": "13562861",
+            "name": "TMS hokata-projects",
+            "publicId": "GTM-MPXMP9M",
+            "usageContext": [
+                "WEB"
+            ],
+            "fingerprint": "1579620624665",
+            "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/136157975/containers/13562861/workspaces?apiLink=container"
+        },
+        "tag": [
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "tagId": "3",
+                "name": "UA Event Data",
+                "type": "ua",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "nonInteraction",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "overrideGaSettings",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventValue",
+                        "value": "{{UA EventValue}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventCategory",
+                        "value": "{{UA EventCategory}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackType",
+                        "value": "TRACK_EVENT"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "gaSettings",
+                        "value": "{{UA Settings}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventAction",
+                        "value": "{{UA EventAction}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventLabel",
+                        "value": "{{UA EventLabel}}"
+                    }
+                ],
+                "fingerprint": "1579620624664",
+                "firingTriggerId": [
+                    "8"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT"
+            },
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "tagId": "4",
+                "name": "UA Pageview",
+                "type": "ua",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "overrideGaSettings",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackType",
+                        "value": "TRACK_PAGEVIEW"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "gaSettings",
+                        "value": "{{UA Settings}}"
+                    }
+                ],
+                "fingerprint": "1579620624665",
+                "firingTriggerId": [
+                    "2147479553"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT"
+            }
+        ],
+        "trigger": [
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "triggerId": "7",
+                "name": "Content Visible",
+                "type": "ELEMENT_VISIBILITY",
+                "fingerprint": "1579620624654",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "useOnScreenDuration",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "useDomChangeListener",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "elementSelector",
+                        "value": "a[name]"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "firingFrequency",
+                        "value": "ONCE_PER_ELEMENT"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "selectorType",
+                        "value": "CSS"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "onScreenRatio",
+                        "value": "5"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "onScreenDuration",
+                        "value": "3000"
+                    }
+                ]
+            },
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "triggerId": "8",
+                "name": "UA Data",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "uaData"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1579620624655"
+            }
+        ],
+        "variable": [
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "variableId": "9",
+                "name": "UA EventAction",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "eventAction"
+                    }
+                ],
+                "fingerprint": "1579620624658",
+                "formatValue": {}
+            },
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "variableId": "10",
+                "name": "UA EventCategory",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "eventCategory"
+                    }
+                ],
+                "fingerprint": "1579620624658",
+                "formatValue": {}
+            },
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "variableId": "11",
+                "name": "UA EventLabel",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "eventLabel"
+                    }
+                ],
+                "fingerprint": "1579620624658",
+                "formatValue": {}
+            },
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "variableId": "12",
+                "name": "UA EventValue",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "eventValue"
+                    }
+                ],
+                "fingerprint": "1579620624658",
+                "formatValue": {}
+            },
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "variableId": "13",
+                "name": "UA ID Test",
+                "type": "c",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "value",
+                        "value": "UA-11736406-11"
+                    }
+                ],
+                "fingerprint": "1579622356362",
+                "formatValue": {}
+            },
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "variableId": "14",
+                "name": "UA ID Live",
+                "type": "smm",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "true"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "input",
+                        "value": "{{Page Hostname}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "defaultValue",
+                        "value": "{{UA ID Test}}"
+                    },
+                    {
+                        "type": "LIST",
+                        "key": "map",
+                        "list": [
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "key",
+                                        "value": "www.hokata.de"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "UA-11736406-1"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "key",
+                                        "value": "www.tagmanagerserver.com"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "UA-11736406-10"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "key",
+                                        "value": "elements.digital"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "UA-56241841-2"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "key",
+                                        "value": "mindmapp.de"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "UA-31047793-1"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "key",
+                                        "value": "www.mindmapp.de"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "UA-31047793-1"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "key",
+                                        "value": "folien-schweissgeraete.info"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "UA-80044683-1"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "key",
+                                        "value": "www.folien-schweissgeraete.info"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "UA-80044683-1"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "key",
+                                        "value": "license.tagmanagerserver.com"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "UA-11736406-14"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "key",
+                                        "value": "localhost"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "UA-11736406-12"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1593432907514",
+                "formatValue": {}
+            },
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "variableId": "15",
+                "name": "UA ID Dynamic",
+                "type": "smm",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "true"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "input",
+                        "value": "{{Debug Mode}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "defaultValue",
+                        "value": "{{UA ID Test}}"
+                    },
+                    {
+                        "type": "LIST",
+                        "key": "map",
+                        "list": [
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "key",
+                                        "value": "false"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{UA ID Live}}"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1579620624660",
+                "formatValue": {}
+            },
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "variableId": "16",
+                "name": "UA Settings",
+                "type": "gas",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "cookieDomain",
+                        "value": "auto"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "useEcommerceDataLayer",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "doubleClick",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setTrackerName",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "useDebugVersion",
+                        "value": "false"
+                    },
+                    {
+                        "type": "LIST",
+                        "key": "fieldsToSet",
+                        "list": [
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "fieldName",
+                                        "value": "anonymizeIp"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "1"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "useHashAutoLink",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "decorateFormsAutoLink",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableLinkId",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableEcommerce",
+                        "value": "true"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackingId",
+                        "value": "{{UA ID Dynamic}}"
+                    }
+                ],
+                "fingerprint": "1594301952776"
+            }
+        ],
+        "folder": [
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "folderId": "6",
+                "name": "GTM_elements",
+                "fingerprint": "1579620624654"
+            }
+        ],
+        "builtInVariable": [
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "type": "PAGE_URL",
+                "name": "Page URL"
+            },
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "type": "PAGE_HOSTNAME",
+                "name": "Page Hostname"
+            },
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "type": "PAGE_PATH",
+                "name": "Page Path"
+            },
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "type": "REFERRER",
+                "name": "Referrer"
+            },
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "type": "EVENT",
+                "name": "Event"
+            },
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "type": "DEBUG_MODE",
+                "name": "Debug Mode"
+            },
+            {
+                "accountId": "136157975",
+                "containerId": "13562861",
+                "type": "ELEMENT_VISIBILITY_RATIO",
+                "name": "Percent Visible"
+            }
+        ],
+        "fingerprint": "1594301968186",
+        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/136157975/containers/13562861/versions/0?apiLink=version"
+    }
+}
