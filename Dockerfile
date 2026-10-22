@@ -12,6 +12,7 @@ COPY sites/playground.dlyx.io/    /var/www/playground.dlyx.io/
 COPY sites/hdengine.io/ /var/www/hdengine.io/
 COPY sites/parking/ /var/www/parking/
 COPY sites/hokata.de/ /var/www/hokata.de/
+COPY sites/tagmanagerserver.com/ /var/www/tagmanagerserver.com/
 
 RUN chown -R www-data:www-data /var/www/
 
