@@ -10,7 +10,8 @@ COPY sites/hokata.de/  /var/www/hokata.de/
 COPY sites/dlyx.io/    /var/www/dlyx.io/
 COPY sites/playground.dlyx.io/    /var/www/playground.dlyx.io/
 COPY sites/hdengine.io/ /var/www/hdengine.io/
-COPY sites/holyx.io/ /var/www/holyx.io/
+COPY sites/parking/ /var/www/parking/
+COPY sites/hokata.de/ /var/www/hokata.de/
 
 RUN chown -R www-data:www-data /var/www/
 
